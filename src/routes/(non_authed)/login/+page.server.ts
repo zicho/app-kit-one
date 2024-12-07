@@ -1,5 +1,5 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
+import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { registerUserSchema } from '$lib/validation/schemas/registerUserSchema.js';
 import { signInUsername, signUpEmail } from '$lib/server/auth/emailPasswordAuthUtils.js';
@@ -28,7 +28,7 @@ export const actions = {
 			cookies.set(session!.name, session!.value, session!.opts);
 			redirect(302, '/');
 		} else {
-			error(403);
+			return message(form, authResponse.message);
 		}
 	}
 };

@@ -29,6 +29,7 @@ export async function checkSession(e: RequestEvent) {
 
 export type TAuthResponse = {
 	success: boolean;
+	message?: string;
 	session?: {
 		// if successful, session contains data
 		name: string;

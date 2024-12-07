@@ -1,4 +1,5 @@
 import { auth, type TAuthResponse } from './auth';
+import { getErrorCode } from './utils';
 
 // Utility to parse the `set-cookie` header
 function parseCookies(setCookieHeader: string) {
@@ -28,8 +29,6 @@ function parseCookies(setCookieHeader: string) {
 async function handleAuthResponse(response: Response): Promise<TAuthResponse> {
 	const setCookieHeader = response.headers.get('set-cookie');
 
-	console.dir(setCookieHeader);
-
 	if (setCookieHeader) {
 		const cookies = parseCookies(setCookieHeader);
 		if (cookies.length > 0) {
@@ -56,8 +55,8 @@ export async function signInUsername({
 		});
 
 		return handleAuthResponse(response);
-	} catch {
-		return { success: false };
+	} catch (err) {
+		return { success: false, message: getErrorCode(err) };
 	}
 }
 
@@ -80,7 +79,6 @@ export async function signUpEmail({
 		return handleAuthResponse(response);
 	} catch (err) {
 		console.dir(err);
-
-		return { success: false };
+		return { success: false, message: getErrorCode(err) };
 	}
 }
