@@ -4,9 +4,11 @@ import { error, type Actions } from '@sveltejs/kit';
 
 export const load = async ({ fetch, cookies }) => {
 	const user = {
-		email: 'user@userland.se', // Example user info
+		email: 'user', // Example user info
 		password: 'safe_password'
 	};
+
+	return;
 
 	const authResponse = await signInEmail({ user });
 

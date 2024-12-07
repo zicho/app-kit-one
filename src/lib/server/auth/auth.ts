@@ -1,7 +1,9 @@
 import { betterAuth } from 'better-auth';
 import { PRIVATE_BETTER_AUTH_SECRET } from '$env/static/private';
-import { db } from '$lib/server/db/db';
 import type { RequestEvent } from '@sveltejs/kit';
+import { username } from 'better-auth/plugins';
+import { db } from '../db/db';
+
 export const auth = betterAuth({
 	secret: PRIVATE_BETTER_AUTH_SECRET,
 	database: {
@@ -14,7 +16,8 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 		requireEmailVerification: false // set to true in prod
-	}
+	},
+	plugins: [username()]
 
 	// additional providers go here...
 });
