@@ -14,90 +14,90 @@ const handleI18n: Handle = i18n.handle();
 
 // Auth handler
 const handleAuth: Handle = async ({ event, resolve }) => {
-	return svelteKitHandler({ event, resolve, auth });
+  return svelteKitHandler({ event, resolve, auth });
 };
 
 // Migration handler (optional, triggered during startup if necessary)
 const handleMigrations: Handle = async ({
-	event,
-	resolve
+  event,
+  resolve
 }) => {
-	const migrator = new Migrator({
-		db,
-		provider: new CustomMigrationProvider()
-	});
+  const migrator = new Migrator({
+    db,
+    provider: new CustomMigrationProvider()
+  });
 
-	// Uncomment this if you want to run migrations on every request (not recommended in production)
-	// const { error, results } = await migrator.migrateToLatest();
-	// if (error) {
-	//     console.error('Migration failed:', error);
-	// }
+  // Uncomment this if you want to run migrations on every request (not recommended in production)
+  // const { error, results } = await migrator.migrateToLatest();
+  // if (error) {
+  //     console.error('Migration failed:', error);
+  // }
 
-	return resolve(event);
+  return resolve(event);
 };
 
 export const handleRoutes: Handle = async ({
-	event,
-	resolve
+  event,
+  resolve
 }) => {
-	// Extract the group name from parentheses
-	const match = event.route.id?.match(/\(([^)]+)\)/);
-	const group = match ? match[1].split(/[\s/]+/)[0] : null;
+  // Extract the group name from parentheses
+  const match = event.route.id?.match(/\(([^)]+)\)/);
+  const group = match ? match[1].split(/[\s/]+/)[0] : null;
 
-	// Check session validity
-	const session = await checkSession(event);
+  // Check session validity
+  const session = await checkSession(event);
 
-	console.dir('checking session!');
-	if (dev)
-		console.dir(session ? 'has session' : 'has no session');
+  console.dir('checking session!');
+  if (dev)
+    console.dir(session ? 'has session' : 'has no session');
 
-	if (group === 'non_authed') {
-		if (session) {
-			throw redirect(302, '/'); // Redirect to home if session exists
-		}
-	} else if (group === 'protected') {
-		if (!session) {
-			throw redirect(302, '/login'); // Redirect to login if no session
-		}
-	}
+  if (group === 'non_authed') {
+    if (session) {
+      throw redirect(302, '/'); // Redirect to home if session exists
+    }
+  } else if (group === 'protected') {
+    if (!session) {
+      throw redirect(302, '/login'); // Redirect to login if no session
+    }
+  }
 
-	// Default: Proceed with the request
-	return resolve(event);
+  // Default: Proceed with the request
+  return resolve(event);
 };
 
 export const handleLang: Handle = async ({
-	event,
-	resolve
+  event,
+  resolve
 }) => {
-	// Retrieve the 'lang' cookie
-	// languageTag() always returns "en" here for some reason?
-	// work around, get the cookie "manually"
-	const lang = event.cookies.get('paraglide_lang');
+  // Retrieve the 'lang' cookie
+  // languageTag() always returns "en" here for some reason?
+  // work around, get the cookie "manually"
+  const lang = event.cookies.get('paraglide_lang');
 
-	if (lang && lang !== 'en') {
-		// Check if the URL already starts with the language
-		const url = new URL(event.request.url);
-		const segments = url.pathname
-			.split('/')
-			.filter(Boolean); // Remove empty segments
+  if (lang && lang !== 'en') {
+    // Check if the URL already starts with the language
+    const url = new URL(event.request.url);
+    const segments = url.pathname
+      .split('/')
+      .filter(Boolean); // Remove empty segments
 
-		if (segments[0] !== lang) {
-			// Prepend the language to the URL
-			url.pathname = `/${lang}${url.pathname}`;
+    if (segments[0] !== lang) {
+      // Prepend the language to the URL
+      url.pathname = `/${lang}${url.pathname}`;
 
-			// Redirect to the new URL
-			return Response.redirect(url.toString(), 302);
-		}
-	}
+      // Redirect to the new URL
+      return Response.redirect(url.toString(), 302);
+    }
+  }
 
-	// Proceed with the original request
-	return resolve(event);
+  // Proceed with the original request
+  return resolve(event);
 };
 
 // Combine all handlers in sequence
 export const handle: Handle = sequence(
-	handleAuth,
-	handleRoutes,
-	handleLang,
-	handleI18n
+  handleAuth,
+  handleRoutes,
+  handleLang,
+  handleI18n
 );

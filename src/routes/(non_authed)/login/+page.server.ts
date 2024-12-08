@@ -1,35 +1,48 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { message, superValidate } from 'sveltekit-superforms';
+import {
+  message,
+  superValidate
+} from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { registerUserSchema } from '$lib/validation/schemas/registerUserSchema.js';
-import { signInUsername, signUpEmail } from '$lib/server/auth/emailPasswordAuthUtils.js';
+import {
+  signInUsername,
+  signUpEmail
+} from '$lib/server/auth/emailPasswordAuthUtils.js';
 import { loginUserSchema } from '$lib/validation/schemas/loginUserSchema.js';
 
 export const load = async () => {
-	const form = await superValidate(zod(loginUserSchema));
+  const form = await superValidate(zod(loginUserSchema));
 
-	// Always return { form } in load functions
-	return { form };
+  // Always return { form } in load functions
+  return { form };
 };
 
 export const actions = {
-	default: async ({ request, cookies }) => {
-		console.dir('form handler!');
-		const form = await superValidate(request, zod(loginUserSchema));
+  default: async ({ request, cookies }) => {
+    console.dir('form handler!');
+    const form = await superValidate(
+      request,
+      zod(loginUserSchema)
+    );
 
-		if (!form.valid) {
-			return fail(400, { form });
-		}
+    if (!form.valid) {
+      return fail(400, { form });
+    }
 
-		const user = form.data;
-		const authResponse = await signInUsername({ user });
+    const user = form.data;
+    const authResponse = await signInUsername({ user });
 
-		if (authResponse.success) {
-			const { session } = authResponse;
-			cookies.set(session!.name, session!.value, session!.opts);
-			redirect(302, '/');
-		} else {
-			return message(form, authResponse.message);
-		}
-	}
+    if (authResponse.success) {
+      const { session } = authResponse;
+      cookies.set(
+        session!.name,
+        session!.value,
+        session!.opts
+      );
+      redirect(302, '/');
+    } else {
+      return message(form, authResponse.message);
+    }
+  }
 };

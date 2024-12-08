@@ -3,13 +3,13 @@ import initial from './migrations/0001';
 // Import more migrations as needed
 
 export type NamedMigration = Migration & {
-	name: string; // might be excessive but I like it :)
+  name: string; // might be excessive but I like it :)
 };
 
 export const migrations: Record<string, Migration> = {
-	[initial.name]: {
-		up: initial.up,
-		down: initial.down
-	}
-	// Add more migrations using the same pattern
+  [initial.name]: {
+    up: initial.up,
+    down: initial.down
+  }
+  // Add more migrations using the same pattern
 };

@@ -1,19 +1,25 @@
-import type { ColumnType, Generated, Insertable, Selectable, Updateable } from 'kysely';
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable
+} from 'kysely';
 
 export interface Database {
-	users: UserTable;
-	sessions: SessionTable;
+  users: UserTable;
+  sessions: SessionTable;
 }
 
 export interface UserTable {
-	id: Generated<number>;
-	username: string;
+  id: Generated<number>;
+  username: string;
 }
 
 export interface SessionTable {
-	id: Generated<number>;
-	user_id: number;
-	expires_at: Date;
+  id: Generated<number>;
+  user_id: number;
+  expires_at: Date;
 }
 
 export type User = Selectable<UserTable>;
