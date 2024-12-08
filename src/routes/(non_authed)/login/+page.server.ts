@@ -14,6 +14,7 @@ export const load = async () => {
 
 export const actions = {
 	default: async ({ request, cookies }) => {
+		console.dir('form handler!');
 		const form = await superValidate(request, zod(loginUserSchema));
 
 		if (!form.valid) {

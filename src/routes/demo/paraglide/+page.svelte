@@ -5,9 +5,14 @@
 	import { goto } from '$app/navigation';
 	import * as m from '$lib/paraglide/messages.js';
 
-	function switchToLanguage(newLanguage: AvailableLanguageTag) {
+	function switchToLanguage(
+		newLanguage: AvailableLanguageTag
+	) {
 		const canonicalPath = i18n.route($page.url.pathname);
-		const localisedPath = i18n.resolveRoute(canonicalPath, newLanguage);
+		const localisedPath = i18n.resolveRoute(
+			canonicalPath,
+			newLanguage
+		);
 		goto(localisedPath);
 	}
 </script>

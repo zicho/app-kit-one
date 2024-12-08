@@ -7,6 +7,7 @@ import { CustomMigrationProvider } from '$lib/server/db/utils';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { auth, checkSession } from '$lib/server/auth/auth';
 import { dev } from '$app/environment';
+import { languageTag } from '$lib/paraglide/runtime';
 
 // i18n handler
 const handleI18n: Handle = i18n.handle();
@@ -17,7 +18,10 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 };
 
 // Migration handler (optional, triggered during startup if necessary)
-const handleMigrations: Handle = async ({ event, resolve }) => {
+const handleMigrations: Handle = async ({
+	event,
+	resolve
+}) => {
 	const migrator = new Migrator({
 		db,
 		provider: new CustomMigrationProvider()
@@ -32,7 +36,10 @@ const handleMigrations: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handleRoutes: Handle = async ({ event, resolve }) => {
+export const handleRoutes: Handle = async ({
+	event,
+	resolve
+}) => {
 	// Extract the group name from parentheses
 	const match = event.route.id?.match(/\(([^)]+)\)/);
 	const group = match ? match[1].split(/[\s/]+/)[0] : null;
@@ -40,7 +47,9 @@ export const handleRoutes: Handle = async ({ event, resolve }) => {
 	// Check session validity
 	const session = await checkSession(event);
 
-	if (dev) console.dir(session ? 'has session' : 'has no session');
+	console.dir('checking session!');
+	if (dev)
+		console.dir(session ? 'has session' : 'has no session');
 
 	if (group === 'non_authed') {
 		if (session) {
@@ -56,5 +65,39 @@ export const handleRoutes: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
+export const handleLang: Handle = async ({
+	event,
+	resolve
+}) => {
+	// Retrieve the 'lang' cookie
+	// languageTag() always returns "en" here for some reason?
+	// work around, get the cookie "manually"
+	const lang = event.cookies.get('paraglide_lang');
+
+	if (lang && lang !== 'en') {
+		// Check if the URL already starts with the language
+		const url = new URL(event.request.url);
+		const segments = url.pathname
+			.split('/')
+			.filter(Boolean); // Remove empty segments
+
+		if (segments[0] !== lang) {
+			// Prepend the language to the URL
+			url.pathname = `/${lang}${url.pathname}`;
+
+			// Redirect to the new URL
+			return Response.redirect(url.toString(), 302);
+		}
+	}
+
+	// Proceed with the original request
+	return resolve(event);
+};
+
 // Combine all handlers in sequence
-export const handle: Handle = sequence(handleAuth, handleRoutes, handleI18n);
+export const handle: Handle = sequence(
+	handleAuth,
+	handleRoutes,
+	handleLang,
+	handleI18n
+);
