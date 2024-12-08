@@ -1,5 +1,25 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "hello_world": "Hello, {name}!",
-  "log_in": "Log in"
+  "log_in": "Log in",
+  "log_out": "Log out",
+  "register": "Register",
+  "choose_lang": "Choose language",
+  "choose_lang_desc": "Choose your preferred language by pressing the buttons below.",
+  "submit": "Submit",
+  "username": "Username",
+  "password": "Password",
+  "email": "Email",
+  "confirm_password": "Confirm password",
+  "welcome_back": "Welcome back!",
+  "welcome_register": "Create a new account to get started.",
+  "forgot_password": "Forgot password?",
+  "reset_password": "Reset Password",
+  "profile": "Profile",
+  "settings": "Settings",
+  "language": "Language",
+  "error_required_field": "This field is required.",
+  "error_invalid_email": "Please enter a valid email address.",
+  "success_account_created": "Your account has been created successfully!",
+  "success_logged_out": "You have been logged out."
 }

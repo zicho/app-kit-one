@@ -1,4 +1,25 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "hello_world": "Hallå, {name}!"
+  "hello_world": "Hej, {name}!",
+  "log_in": "Logga in",
+  "log_out": "Logga ut",
+  "register": "Registrera",
+  "choose_lang": "Välj språk",
+  "choose_lang_desc": "Välj ditt föredragna språk genom att trycka på knapparna nedan.",
+  "submit": "Skicka",
+  "username": "Användarnamn",
+  "password": "Lösenord",
+  "email": "E-post",
+  "confirm_password": "Bekräfta lösenord",
+  "welcome_back": "Välkommen tillbaka!",
+  "welcome_register": "Skapa ett nytt konto för att komma igång.",
+  "forgot_password": "Glömt lösenord?",
+  "reset_password": "Återställ lösenord",
+  "profile": "Profil",
+  "settings": "Inställningar",
+  "language": "Språk",
+  "error_required_field": "Detta fält är obligatoriskt.",
+  "error_invalid_email": "Vänligen ange en giltig e-postadress.",
+  "success_account_created": "Ditt konto har skapats framgångsrikt!",
+  "success_logged_out": "Du har loggats ut."
 }

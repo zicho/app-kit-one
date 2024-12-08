@@ -15,6 +15,7 @@ function changeLanguage(
     );
 
     // Set the language cookie
+    console.log('changing language');
     cookies.set('paraglide_lang', lang, { path: '/' });
 
     // Redirect to the localized path

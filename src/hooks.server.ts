@@ -69,6 +69,14 @@ export const handleLang: Handle = async ({
   event,
   resolve
 }) => {
+  if (event.route.id?.includes('api')) {
+    console.log('api call');
+    console.dir(event.cookies.get('paraglide_lang'));
+    return resolve(event);
+  }
+
+  console.log('non api call');
+
   // Retrieve the 'lang' cookie
   // languageTag() always returns "en" here for some reason?
   // work around, get the cookie "manually"

@@ -1,15 +1,12 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import {
   message,
   superValidate
 } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { registerUserSchema } from '$lib/validation/schemas/registerUserSchema.js';
-import {
-  signInUsername,
-  signUpEmail
-} from '$lib/server/auth/emailPasswordAuthUtils.js';
+import { signInUsername } from '$lib/server/auth/emailPasswordAuthUtils.js';
 import { loginUserSchema } from '$lib/validation/schemas/loginUserSchema.js';
+import { logout } from '$lib/form_actions/logout.js';
 
 export const load = async () => {
   const form = await superValidate(zod(loginUserSchema));

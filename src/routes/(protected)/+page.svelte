@@ -19,26 +19,25 @@
   }
 </script>
 
-<h1>
-  {m.hello_world({
-    name: data.user?.name ?? 'unknown user'
-  })}
-</h1>
-<p>
-  Visit <a href="https://svelte.dev/docs/kit"
-    >svelte.dev/docs/kit</a
-  > to read the documentation
-</p>
+<section class="prose mb-4">
+  <h1>
+    {m.hello_world({
+      name: data.user?.name ?? 'unknown user'
+    })}
+  </h1>
+  <h2>{m.choose_lang()}</h2>
+  <p>{m.choose_lang_desc()}</p>
+  <div class="flex space-x-4">
+    <form action="?/english" method="post">
+      <button class="btn btn-primary" type="submit"
+        >English</button
+      >
+    </form>
 
-<div>
-  <button onclick={() => switchToLanguage('en')}>en</button>
-  <button onclick={() => switchToLanguage('sv')}>sv</button>
-</div>
-
-<form action="?/swedish" method="post">
-  <button type="submit">Svenska</button>
-</form>
-
-<form action="?/english" method="post">
-  <button type="submit">English</button>
-</form>
+    <form action="?/swedish" method="post">
+      <button class="btn btn-primary" type="submit"
+        >Svenska</button
+      >
+    </form>
+  </div>
+</section>
