@@ -7,6 +7,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { signInUsername } from '$lib/server/auth/emailPasswordAuthUtils.js';
 import { loginUserSchema } from '$lib/validation/schemas/loginUserSchema.js';
 import { logout } from '$lib/form_actions/logout.js';
+import { i18n } from '$lib/i18n';
 
 export const load = async () => {
   const form = await superValidate(zod(loginUserSchema));
@@ -17,7 +18,6 @@ export const load = async () => {
 
 export const actions = {
   default: async ({ request, cookies }) => {
-    console.dir('form handler!');
     const form = await superValidate(
       request,
       zod(loginUserSchema)
@@ -37,7 +37,7 @@ export const actions = {
         session!.value,
         session!.opts
       );
-      redirect(302, '/');
+      redirect(302, i18n.resolveRoute('/'));
     } else {
       return message(form, authResponse.message);
     }

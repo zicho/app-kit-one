@@ -2,6 +2,7 @@
   import { superForm } from 'sveltekit-superforms';
   import type { PageData } from './$types';
   import { enhance } from '$app/forms';
+  import * as m from '$lib/paraglide/messages.js';
 
   let { data }: { data: PageData } = $props();
   const { form, message } = superForm(data.form, {
@@ -15,7 +16,7 @@
   class="flex flex-col space-y-4 p-4"
 >
   <div>
-    <label class="mr-4" for="name">Name</label>
+    <label class="mr-4" for="name">{m.username()}</label>
     <input
       class="border border-black"
       type="text"
@@ -24,7 +25,8 @@
     />
   </div>
   <div>
-    <label class="mr-4" for="password">Password</label>
+    <label class="mr-4" for="password">{m.password()}</label
+    >
     <input
       class="border border-black"
       type="password"
@@ -32,6 +34,6 @@
       bind:value={$form.password}
     />
   </div>
-  <div><button>Submit</button></div>
+  <div><button>{m.submit()}</button></div>
   {$message}
 </form>

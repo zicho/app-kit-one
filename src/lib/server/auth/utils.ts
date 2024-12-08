@@ -20,8 +20,6 @@ export function getErrorCode(err: unknown): string {
 }
 
 function getErrorMessageFromCode(code: string) {
-  console.log(code);
-
   switch (code) {
     case 'INVALID_USERNAME_OR_PASSWORD':
       return INVALID_USERNAME_OR_PASSWORD;

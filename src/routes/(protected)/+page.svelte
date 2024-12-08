@@ -3,7 +3,10 @@
   import { page } from '$app/stores';
   import { i18n } from '$lib/i18n';
   import * as m from '$lib/paraglide/messages.js';
-  import type { AvailableLanguageTag } from '$lib/paraglide/runtime';
+  import {
+    languageTag,
+    type AvailableLanguageTag
+  } from '$lib/paraglide/runtime';
 
   let { data } = $props();
 
@@ -33,6 +36,8 @@
         >English</button
       >
     </form>
+
+    {languageTag()}
 
     <form action="?/swedish" method="post">
       <button class="btn btn-primary" type="submit"

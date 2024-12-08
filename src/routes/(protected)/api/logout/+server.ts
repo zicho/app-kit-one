@@ -1,15 +1,18 @@
-import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { auth } from '$lib/server/auth/auth';
+import { i18n } from '$lib/i18n.js';
+import { redirect } from '@sveltejs/kit';
+import { languageTag } from '$lib/paraglide/runtime';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({
+  request,
+  cookies
+}) => {
   const session = await auth.api.getSession({
     headers: request.headers // Gives it context to the headers of the original request
   });
 
-  const lang = (await request.formData()).get('lang');
-
-  if (!session) redirect(302, '/login');
+  if (!session) redirect(302, i18n.resolveRoute('/login'));
 
   await auth.api.revokeSession({
     headers: request.headers,
@@ -18,6 +21,13 @@ export const POST: RequestHandler = async ({ request }) => {
     }
   });
 
-  if (lang === 'en') redirect(303, `/login`);
-  redirect(303, `/${lang}/login`);
+  const lang = cookies.get('paraglide_lang');
+
+  console.log('lang', lang);
+
+  if (lang == 'en') {
+    redirect(302, '/login');
+  }
+
+  redirect(302, `/${lang}/login`);
 };

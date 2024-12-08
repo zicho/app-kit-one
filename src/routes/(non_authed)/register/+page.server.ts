@@ -1,4 +1,4 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import {
   message,
   superValidate
@@ -6,6 +6,7 @@ import {
 import { zod } from 'sveltekit-superforms/adapters';
 import { registerUserSchema } from '$lib/validation/schemas/registerUserSchema.js';
 import { signUpEmail } from '$lib/server/auth/emailPasswordAuthUtils.js';
+import { i18n } from '$lib/i18n.js';
 
 export const load = async () => {
   const form = await superValidate(zod(registerUserSchema));
@@ -33,7 +34,8 @@ export const actions = {
         session!.value,
         session!.opts
       );
-      redirect(302, '/');
+
+      redirect(302, i18n.resolveRoute('/'));
     } else {
       return message(form, authResponse.message);
     }

@@ -3,10 +3,10 @@
   import { ParaglideJS } from '@inlang/paraglide-sveltekit';
   import '../app.css';
   import { setAuthState } from '$lib/state/AuthState.svelte';
-  let { children, data = $bindable() } = $props();
   import * as m from '$lib/paraglide/messages.js';
   import { languageTag } from '$lib/paraglide/runtime';
 
+  let { children, data = $bindable() } = $props();
   let { user, session } = $derived(data);
 
   $effect(() => {

@@ -6,8 +6,6 @@ import { Migrator } from 'kysely';
 import { CustomMigrationProvider } from '$lib/server/db/utils';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { auth, checkSession } from '$lib/server/auth/auth';
-import { dev } from '$app/environment';
-import { languageTag } from '$lib/paraglide/runtime';
 
 // i18n handler
 const handleI18n: Handle = i18n.handle();
@@ -47,17 +45,17 @@ export const handleRoutes: Handle = async ({
   // Check session validity
   const session = await checkSession(event);
 
-  console.dir('checking session!');
-  if (dev)
-    console.dir(session ? 'has session' : 'has no session');
+  // console.dir('checking session!');
+  // if (dev)
+  //   console.dir(session ? 'has session' : 'has no session');
 
   if (group === 'non_authed') {
     if (session) {
-      throw redirect(302, '/'); // Redirect to home if session exists
+      redirect(302, i18n.resolveRoute('/'));
     }
   } else if (group === 'protected') {
     if (!session) {
-      throw redirect(302, '/login'); // Redirect to login if no session
+      redirect(302, i18n.resolveRoute('/login'));
     }
   }
 
@@ -70,12 +68,8 @@ export const handleLang: Handle = async ({
   resolve
 }) => {
   if (event.route.id?.includes('api')) {
-    console.log('api call');
-    console.dir(event.cookies.get('paraglide_lang'));
     return resolve(event);
   }
-
-  console.log('non api call');
 
   // Retrieve the 'lang' cookie
   // languageTag() always returns "en" here for some reason?
@@ -106,6 +100,6 @@ export const handleLang: Handle = async ({
 export const handle: Handle = sequence(
   handleAuth,
   handleRoutes,
-  handleLang,
+  // handleLang,
   handleI18n
 );

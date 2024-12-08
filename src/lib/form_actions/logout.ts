@@ -1,5 +1,5 @@
 import { auth } from '$lib/server/auth/auth';
-import { redirect, type Action } from '@sveltejs/kit';
+import { type Action } from '@sveltejs/kit';
 
 export const logout: Action = async ({ request }) => {
   const session = await auth.api.getSession({
