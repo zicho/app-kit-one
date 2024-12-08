@@ -1,6 +1,9 @@
 import { redirect, type Action } from '@sveltejs/kit';
 import { i18n } from '$lib/i18n'; // Ensure the correct import path for `i18n`
-import type { AvailableLanguageTag } from '$lib/paraglide/runtime';
+import {
+  setLanguageTag,
+  type AvailableLanguageTag
+} from '$lib/paraglide/runtime';
 
 function changeLanguage(
   lang: AvailableLanguageTag
@@ -15,10 +18,11 @@ function changeLanguage(
 
     // Set the language cookie
     console.log('changing lang to', lang);
-    cookies.set('paraglide_lang', lang, { path: '/' });
+    // cookies.set('paraglide_lang', lang, { path: '/' });
+    setLanguageTag(lang);
 
     // Redirect to the localized path
-    redirect(302, i18n.resolveRoute(localisedPath));
+    redirect(302, localisedPath);
   };
 }
 

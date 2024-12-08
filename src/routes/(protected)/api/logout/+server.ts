@@ -2,7 +2,6 @@ import type { RequestHandler } from './$types';
 import { auth } from '$lib/server/auth/auth';
 import { i18n } from '$lib/i18n.js';
 import { redirect } from '@sveltejs/kit';
-import { languageTag } from '$lib/paraglide/runtime';
 
 export const POST: RequestHandler = async ({
   request,
@@ -25,9 +24,9 @@ export const POST: RequestHandler = async ({
 
   console.log('lang', lang);
 
-  if (lang == 'en') {
-    redirect(302, '/login');
-  }
+  // if (lang == 'en') {
+  //   redirect(302, '/login');
+  // }
 
-  redirect(302, `/${lang}/login`);
+  redirect(302, i18n.resolveRoute(`/login`));
 };
