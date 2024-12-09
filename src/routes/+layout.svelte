@@ -18,10 +18,7 @@
 </script>
 
 <ParaglideJS {i18n}>
-  <nav class="navbar bg-neutral text-neutral-content">
-    <Navbar />
-  </nav>
-  <main class="p-4 md:p-6">
-    {@render children()}
-  </main>
+  <Navbar />
+
+  {@render children()}
 </ParaglideJS>

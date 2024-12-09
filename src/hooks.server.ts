@@ -63,43 +63,9 @@ export const handleRoutes: Handle = async ({
   return resolve(event);
 };
 
-export const handleLang: Handle = async ({
-  event,
-  resolve
-}) => {
-  if (event.route.id?.includes('api')) {
-    return resolve(event);
-  }
-
-  // Retrieve the 'lang' cookie
-  // languageTag() always returns "en" here for some reason?
-  // work around, get the cookie "manually"
-  const lang = event.cookies.get('paraglide_lang');
-
-  if (lang && lang !== 'en') {
-    // Check if the URL already starts with the language
-    const url = new URL(event.request.url);
-    const segments = url.pathname
-      .split('/')
-      .filter(Boolean); // Remove empty segments
-
-    if (segments[0] !== lang) {
-      // Prepend the language to the URL
-      url.pathname = `/${lang}${url.pathname}`;
-
-      // Redirect to the new URL
-      return Response.redirect(url.toString(), 302);
-    }
-  }
-
-  // Proceed with the original request
-  return resolve(event);
-};
-
 // Combine all handlers in sequence
 export const handle: Handle = sequence(
   handleAuth,
   handleRoutes,
-  // handleLang,
   handleI18n
 );

@@ -4,6 +4,8 @@
   "log_in": "Log in",
   "log_out": "Log out",
   "register": "Register",
+  "not_a_member": "Not a member?",
+  "already_a_member": "Already a member?",
   "choose_lang": "Choose language",
   "choose_lang_desc": "Choose your preferred language by pressing the buttons below.",
   "submit": "Submit",

@@ -1,9 +1,11 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "hello_world": "Hej, {name}!",
+  "hello_world": "Hallå, {name}!",
   "log_in": "Logga in",
   "log_out": "Logga ut",
-  "register": "Registrera",
+  "register": "Registrera dig",
+  "not_a_member": "Inte medlem?",
+  "already_a_member": "Redan medlem?",
   "choose_lang": "Välj språk",
   "choose_lang_desc": "Välj ditt föredragna språk genom att trycka på knapparna nedan.",
   "submit": "Bekräfta",
