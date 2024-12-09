@@ -7,11 +7,13 @@
 
   let { children, data } = $props();
 
-  $effect.pre(() => {
-    setAuthState({
-      session: data.session,
-      user: data.user
-    });
+  setAuthState({
+    get user() {
+      return data.user;
+    },
+    get session() {
+      return data.session;
+    }
   });
 </script>
 

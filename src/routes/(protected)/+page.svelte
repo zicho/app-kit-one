@@ -2,13 +2,13 @@
   import * as m from '$lib/paraglide/messages.js';
   import { getAuthState } from '$lib/state/AuthState.svelte';
 
-  const state = getAuthState();
+  const { user } = $derived(getAuthState());
 </script>
 
 <section class="prose mb-4">
   <h1>
     {m.hello_world({
-      name: state?.user?.name ?? 'unknown user'
+      name: user?.name ?? 'unknown user'
     })}
   </h1>
   <h2>{m.choose_lang()}</h2>

@@ -2,7 +2,7 @@
   import { getAuthState } from '$lib/state/AuthState.svelte';
   import * as m from '$lib/paraglide/messages.js';
 
-  let state = getAuthState();
+  const { session, user } = $derived.by(getAuthState);
 </script>
 
 <div class="flex-1">
@@ -10,10 +10,10 @@
 </div>
 <div class="flex-none">
   <ul class="menu menu-horizontal px-1">
-    {#if state?.session}
+    {#if session}
       <li>
         <a href="/profile" class="btn btn-ghost"
-          >{state?.user?.name}
+          >{user?.name}
         </a>
       </li>
       <form method="post" action="/api/logout">
